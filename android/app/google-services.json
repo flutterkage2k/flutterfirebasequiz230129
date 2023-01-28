@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "812181551915",
+    "project_id": "flutterfirebasequiz230129",
+    "storage_bucket": "flutterfirebasequiz230129.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812181551915:android:f60ea42312823383d8e36e",
+        "android_client_info": {
+          "package_name": "com.flutterkage2k.flutterfirebasequiz230129"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812181551915-e9nrfnqtbe1ucd15f2vg7p3hif2f4tn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBffANe5Co6Et4q-bskuWP0e6AeFvcH6dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812181551915-e9nrfnqtbe1ucd15f2vg7p3hif2f4tn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
