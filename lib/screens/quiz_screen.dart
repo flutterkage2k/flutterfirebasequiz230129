@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfirebasequiz230129/const.dart';
 import 'package:flutterfirebasequiz230129/models/model.dart';
@@ -95,15 +94,18 @@ class _QuizScreenState extends State<QuizScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                AutoSizeText(
-                  maxLines: 10,
-                  currentQuestion.question,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                SizedBox(
+                  height: height * 0.28,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      currentQuestion.question,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
                   ),
                 ),
-                // Spacer(),
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (context, index) {

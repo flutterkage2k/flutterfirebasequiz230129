@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfirebasequiz230129/auth/auth_service.dart';
 import 'package:flutterfirebasequiz230129/const.dart';
-import 'package:flutterfirebasequiz230129/models/model.dart';
+import 'package:flutterfirebasequiz230129/providers/quiz_provider.dart';
 import 'package:flutterfirebasequiz230129/screens/action_button.dart';
 import 'package:flutterfirebasequiz230129/screens/quiz_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<QuizProvider>();
+
     Size screenSize = MediaQuery.of(context).size;
     double width = screenSize.width;
     double height = screenSize.height;
@@ -58,57 +60,59 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance.collection('questions').snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                if (provider.questions.isEmpty || provider.totalTime == 0)
+                  Center(
+                    child: CircularProgressIndicator(),
+                  )
+                else
+                  ActionButton(
+                    title: "시작",
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => QuizScreen(
+                            totalTime: provider.totalTime,
+                            questions: provider.questions,
+                          ),
+                        ),
                       );
-                    }
-
-                    final questionDocs = snapshot.data!.docs;
-                    final questionss = questionDocs.map((e) => Question.fromQueryDocumentSnapshot(e)).toList();
-
-                    return StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('config').snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        final configDocs = snapshot.data!.docs.first.data() as Map<String, dynamic>;
-                        final totalTime = configDocs['key'];
-
-                        return Column(
-                          children: [
-                            ActionButton(
-                              title: "시작",
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => QuizScreen(
-                                      totalTime: totalTime,
-                                      questions: questionss,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              'Total Questions: ${questionss.length}',
-                              style: TextStyle(color: Colors.white),
-                            )
-                          ],
-                        );
-                      },
-                    );
-                  },
+                    },
+                  ),
+                SizedBox(
+                  height: 20,
                 ),
+                Text(
+                  'Total Questions: ${provider.questions.length}',
+                  style: TextStyle(color: Colors.white),
+                )
+                // StreamBuilder<QuerySnapshot>(
+                //   stream: FirebaseFirestore.instance.collection('questions').snapshots(),
+                //   builder: (context, snapshot) {
+                //     if (!snapshot.hasData) {
+                //       return Center(
+                //         child: CircularProgressIndicator(),
+                //       );
+                //     }
+                //
+                //     final questionDocs = snapshot.data!.docs;
+                //     final questionss = questionDocs.map((e) => Question.fromQueryDocumentSnapshot(e)).toList();
+                //
+                //     return StreamBuilder<QuerySnapshot>(
+                //       stream: FirebaseFirestore.instance.collection('config').snapshots(),
+                //       builder: (context, snapshot) {
+                //         if (!snapshot.hasData) {
+                //           return Center(
+                //             child: CircularProgressIndicator(),
+                //           );
+                //         }
+                //         final configDocs = snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                //         final totalTime = configDocs['key'];
+                //
+                //         return Column(
+                //           children: [
+                //             SizedBox(
+                //               height: 20,
+                //             ),
               ],
             ),
           ),
