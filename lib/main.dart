@@ -20,25 +20,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(primarySwatch: Colors.teal),
         home: StreamBuilder<User?>(
-      stream: AuthService().authState,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.connectionState == ConnectionState.done || snapshot.connectionState == ConnectionState.active) {
-          if (snapshot.hasData) {
-            return const HomeScreen();
-          } else {
-            return const LoginScreen();
-          }
-        } else {
-          return Center(
-            child: Text('State: ${snapshot.connectionState}'),
-          );
-        }
-      },
-    ));
+          stream: AuthService().authState,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done || snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              } else {
+                return const LoginScreen();
+              }
+            } else {
+              return Center(
+                child: Text('State: ${snapshot.connectionState}'),
+              );
+            }
+          },
+        ));
   }
 }
